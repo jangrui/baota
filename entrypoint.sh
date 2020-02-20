@@ -14,6 +14,10 @@ if [ ! -f "/root/.ssh/id_rsa_${SSH_PORT}" ];then
     echo "${_f1}${_f2}${_f3}" | base64 | tr -d '\r\n '| od -An -tx1 | tr -d '\r\n ' > "/www/server/panel/config/t_info.json"
 fi
 
+if [ `grep "Port ${SSH_PORT}" /etc/ssh/sshd_config|wc -l` -eq 0 ];then
+    echo "Port ${SSH_PORT}" >> /etc/ssh/sshd_config
+fi
+
 ls /etc/init.d |xargs -I {} sh -c "/etc/init.d/{} restart"
 
 tail -f /dev/null

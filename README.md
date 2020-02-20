@@ -1,7 +1,7 @@
 # docker 部署宝塔面板
 
-[![](https://images.microbadger.com/badges/version/jangrui/baota.svg)](https://microbadger.com/images/jangrui/baota "jangrui/baota:latest")
-[![](https://images.microbadger.com/badges/image/jangrui/baota.svg)](https://microbadger.com/images/jangrui/baota "jangrui/baota:latest")
+[![](https://images.microbadger.com/badges/version/jangrui/baota:latest.svg)](https://microbadger.com/images/jangrui/baota:latest "jangrui/baota:latest")
+[![](https://images.microbadger.com/badges/image/jangrui/baota:latest.svg)](https://microbadger.com/images/jangrui/baota:latest "jangrui/baota:latest")
 
 >  基于 Ubuntu 镜像构建宝塔面板。
 
@@ -35,6 +35,5 @@ docker-compose up -d
 
 ## 数据持久化
 
-`/www` 文件夹保存在 `volume` 卷中, `/www/wwwroot` 映射到宿主机的目录下,方便上传网站代码等文件
-
-面板数据都保存在持久化的卷中, 即使删除容器（不删除volume）后重新运行, 原来的面板和网站数据都能得到保留。启动容器时自动启动所有服务。
+- `/www` 映射到宿主机的 `volume` 卷中（`/var/lib/docker/volumes/$(basename $PWD)/_data/`）。
+- `/www/backup` 映射到当前目录下的 `www/backup` 目录。

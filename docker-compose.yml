@@ -1,12 +1,6 @@
 version: '2.4'
 services: 
   bt:
-    build:
-      context: ./
-      args:
-        BT_PORT: 8888
-        USERNAME: username
-        PASSWORD: password
     image: jangrui/baota:latest
     container_name: baota
     restart: unless-stopped
@@ -14,8 +8,7 @@ services:
     privileged: true
     hostname: ${HOSTNAME:-bt.cn}
     # network_mode: host
-    environment: 
-      TZ: Asia/Shanghai
+    # environment: 
       # SSH_PORT: 3322
     ulimits:
       nproc: 65535
@@ -23,12 +16,12 @@ services:
         soft: 51200
         hard: 51200
     ports: 
-      - 3322:22
-      # - 3322:3322
+      - 3322:3322
       - 8888:8888
     volumes: 
       - www:/www
-      # - ./wwwroot:/www/wwwroot
-
+      - ./www/backup:/www/backup
+      
 volumes: 
   www:
+  

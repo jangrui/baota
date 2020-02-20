@@ -5,9 +5,10 @@ LABEL org.label-schema.vcs-url="https://github.com/jangrui/baota" \
 
 ARG TZ=Asia/Shanghai
 ARG DEBIAN_FRONTEND=noninteractive
-ENV SSH_PORT=${SSH_PORT:-22}
+ENV SSH_PORT=${SSH_PORT:-3322}
 
-RUN apt-get update && apt-get install -y locales curl vim openssh-server tzdata \
+RUN sed -i "s,//.*.ubuntu.com,//mirrors.aliyun.com,g" /etc/apt/sources.list \
+    && apt-get update && apt-get install -y locales curl vim openssh-server tzdata \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/* \
     && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
@@ -19,7 +20,7 @@ ENV LANG en_US.utf8
 
 FROM builder AS baota
 
-RUN curl -sSo install.sh http://download.bt.cn/install/install_6.0.sh \
+RUN curl -sSo install.sh http://download.bt.cn/install/new_install.sh \
     && echo y | bash install.sh \
     && rm -rf install.sh /var/lib/apt/list/*
 
@@ -36,5 +37,4 @@ RUN chmod +x /entrypoint.sh \
 
 CMD /entrypoint.sh
 EXPOSE ${BT_PORT} ${SSH_PORT}
-VOLUME [ "/www", "/www/wwwroot"]
 HEALTHCHECK --interval=5s --timeout=3s CMD curl -fs http://localhost:${BT_PORT} || exit 1 
