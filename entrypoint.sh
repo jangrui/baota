@@ -61,4 +61,9 @@ if [ -f /etc/init.d/pure-ftpd ];then
     /etc/init.d/pure-ftpd start
 fi
 
+if [ -f /etc/init.d/php-fpm-55 ];then
+    echo "Starting php-fpm-55 ..."
+    /etc/init.d/php-fpm-55 start
+fi
+
 tail -f /www/server/panel/logs/*.log
